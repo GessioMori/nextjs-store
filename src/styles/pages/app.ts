@@ -15,6 +15,7 @@ export const Header = styled("header", {
   margin: "0 auto",
   display: "flex",
   alignItems: "center",
+  cursor: "pointer",
 });
 
 export const HeaderText = styled("span", {
