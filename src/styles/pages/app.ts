@@ -13,4 +13,11 @@ export const Header = styled("header", {
   width: "100%",
   maxWidth: 1180,
   margin: "0 auto",
+  display: "flex",
+  alignItems: "center",
+});
+
+export const HeaderText = styled("span", {
+  fontSize: "$2xl",
+  fontWeight: "bold",
 });
