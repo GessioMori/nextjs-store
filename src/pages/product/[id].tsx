@@ -9,6 +9,8 @@ import {
   ProductContainer,
   ProductDetails,
 } from "../../styles/pages/product";
+import axios from "axios";
+import { useState } from "react";
 
 interface ProductProps {
   product: {
@@ -17,11 +19,27 @@ interface ProductProps {
     imageUrl: string;
     price: string;
     description: string;
+    defaultPriceId: string;
   };
 }
 
 export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  async function handleBuyProduct() {
+    try {
+      setIsRedirecting(true);
+      const response = await axios.post("/api/checkout", {
+        priceId: product.defaultPriceId,
+      });
+      const { checkoutUrl } = response.data;
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      alert("Some error happened, try again!");
+      setIsRedirecting(false);
+    }
+  }
 
   if (isFallback) {
     return <SkeletonScreen />;
@@ -41,7 +59,9 @@ export default function Product({ product }: ProductProps) {
         <h1>{product.name}</h1>
         <span>{product.price}</span>
         <p>{product.description}</p>
-        <button>Buy now</button>
+        <button onClick={handleBuyProduct} disabled={isRedirecting}>
+          Buy now
+        </button>
       </ProductDetails>
     </ProductContainer>
   );
@@ -76,6 +96,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
           currency: "BRL",
         }).format(price.unit_amount / 100),
         description: product.description,
+        defaultPriceId: price.id,
       },
     },
     revalidate: 60 * 60 * 2, // 2 hours
