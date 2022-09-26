@@ -4,6 +4,7 @@ export const ProductContainer = styled("main", {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
   alignItems: "stretch",
+  width: "100%",
   gap: "4rem",
 
   maxWidth: 1180,

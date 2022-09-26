@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/future/image";
 import { useRouter } from "next/router";
 import Stripe from "stripe";
+import SkeletonScreen from "../../components/SkeletonScreen";
 import { stripe } from "../../lib/stripe";
 import {
   ImageContainer,
@@ -23,7 +24,7 @@ export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter();
 
   if (isFallback) {
-    return <p>Loading...</p>;
+    return <SkeletonScreen />;
   }
 
   return (
@@ -70,9 +71,9 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: new Intl.NumberFormat("en-US", {
+        price: new Intl.NumberFormat("pt-BR", {
           style: "currency",
-          currency: "USD",
+          currency: "BRL",
         }).format(price.unit_amount / 100),
         description: product.description,
       },
