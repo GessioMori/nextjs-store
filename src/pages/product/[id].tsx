@@ -12,6 +12,8 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import Head from "next/head";
+import { useContextSelector } from "use-context-selector";
+import { CartContext } from "../../contexts/CartContext";
 
 interface ProductProps {
   product: {
@@ -27,6 +29,10 @@ interface ProductProps {
 export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const changeItemQuantity = useContextSelector(
+    CartContext,
+    (context) => context.changeItemQuantity
+  );
 
   async function handleBuyProduct() {
     try {
@@ -64,7 +70,17 @@ export default function Product({ product }: ProductProps) {
           <h1>{product.name}</h1>
           <span>{product.price}</span>
           <p>{product.description}</p>
-          <button onClick={handleBuyProduct} disabled={isRedirecting}>
+          <button
+            onClick={() =>
+              changeItemQuantity(
+                product.defaultPriceId,
+                product.name,
+                product.imageUrl,
+                product.price,
+                "add"
+              )
+            }
+          >
             Buy now
           </button>
         </ProductDetails>

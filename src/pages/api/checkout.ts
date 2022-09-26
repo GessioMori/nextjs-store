@@ -18,6 +18,9 @@ export default async function handler(
   const success_url = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`;
   const cancel_url = `${process.env.NEXT_URL}/cart`;
   const checkoutSession = await stripe.checkout.sessions.create({
+    shipping_address_collection: {
+      allowed_countries: ["BR"],
+    },
     success_url,
     cancel_url,
     mode: "payment",

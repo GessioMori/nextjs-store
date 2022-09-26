@@ -15,10 +15,17 @@ export const Header = styled("header", {
   margin: "0 auto",
   display: "flex",
   alignItems: "center",
-  cursor: "pointer",
+  justifyContent: "space-between",
 });
 
 export const HeaderText = styled("span", {
   fontSize: "$2xl",
   fontWeight: "bold",
+  cursor: "pointer",
+});
+
+export const LogoContainer = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 });
