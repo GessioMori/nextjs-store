@@ -8,6 +8,7 @@ import "keen-slider/keen-slider.min.css";
 import { stripe } from "../lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
+import { Arrow } from "../components/Arrow";
 
 interface HomeProps {
   products: {
@@ -19,40 +20,63 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [sliderRef] = useKeenSlider({
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: 0,
+    loop: true,
     slides: {
-      perView: 3,
+      perView: 1,
       spacing: 48,
     },
+
     breakpoints: {
-      "(max-width: 500px)": {
+      "(min-width: 560px)": {
         slides: {
-          perView: 1,
+          perView: 2,
+          spacing: 48,
+        },
+      },
+      "(min-width: 980px)": {
+        slides: {
+          perView: 3,
           spacing: 48,
         },
       },
     },
   });
+
   return (
-    <HomeContainer ref={sliderRef} className="keen-slider">
-      {products.map((product) => {
-        return (
-          <Link
-            key={product.id}
-            href={`/product/${product.id}`}
-            prefetch={false}
-          >
-            <Product className="keen-slider__slide">
-              <Image src={product.imageUrl} alt="" width={300} height={300} />
-              <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
-              </footer>
-            </Product>
-          </Link>
-        );
-      })}
-    </HomeContainer>
+    <>
+      <HomeContainer ref={sliderRef} className="keen-slider">
+        <Arrow
+          left
+          onClick={(e: any) =>
+            e.stopPropagation() || instanceRef.current?.prev()
+          }
+        />
+        <Arrow
+          onClick={(e: any) =>
+            e.stopPropagation() || instanceRef.current?.next()
+          }
+        />
+        {products.map((product) => {
+          return (
+            <Link
+              key={product.id}
+              href={`/product/${product.id}`}
+              prefetch={false}
+            >
+              <Product className="keen-slider__slide">
+                <Image src={product.imageUrl} alt="" width={300} height={300} />
+                <footer>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </footer>
+              </Product>
+            </Link>
+          );
+        })}
+      </HomeContainer>
+    </>
   );
 }
 

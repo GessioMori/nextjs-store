@@ -9,6 +9,14 @@ export const ProductContainer = styled("main", {
 
   maxWidth: 1180,
   margin: "0 auto",
+
+  "@media screen and (max-device-width:640px)": {
+    gridTemplateColumns: "1fr",
+
+    "button, h1, span, p": {
+      margin: "1rem",
+    },
+  },
 });
 export const ImageContainer = styled("div", {
   width: "100%",
