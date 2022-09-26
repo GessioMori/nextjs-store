@@ -11,6 +11,7 @@ import {
 } from "../../styles/pages/product";
 import axios from "axios";
 import { useState } from "react";
+import Head from "next/head";
 
 interface ProductProps {
   product: {
@@ -46,24 +47,29 @@ export default function Product({ product }: ProductProps) {
   }
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image
-          src={product.imageUrl}
-          width={300}
-          height={300}
-          alt={`Image of ${product.name}`}
-        />
-      </ImageContainer>
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
-        <p>{product.description}</p>
-        <button onClick={handleBuyProduct} disabled={isRedirecting}>
-          Buy now
-        </button>
-      </ProductDetails>
-    </ProductContainer>
+    <>
+      <Head>
+        <title>{product.name} | MyStore</title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          <Image
+            src={product.imageUrl}
+            width={300}
+            height={300}
+            alt={`Image of ${product.name}`}
+          />
+        </ImageContainer>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
+          <p>{product.description}</p>
+          <button onClick={handleBuyProduct} disabled={isRedirecting}>
+            Buy now
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   );
 }
 
