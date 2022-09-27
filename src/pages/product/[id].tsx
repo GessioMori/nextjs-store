@@ -28,7 +28,7 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { isFallback } = useRouter();
+  const { isFallback, push } = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
   const changeItemQuantity = useContextSelector(
     CartContext,
@@ -72,7 +72,7 @@ export default function Product({ product }: ProductProps) {
           <span>{product.formatedPrice}</span>
           <p>{product.description}</p>
           <button
-            onClick={() =>
+            onClick={() => {
               changeItemQuantity({
                 action: "add",
                 imageUrl: product.imageUrl,
@@ -81,10 +81,11 @@ export default function Product({ product }: ProductProps) {
                 price: product.price,
                 priceId: product.defaultPriceId,
                 productId: product.productId,
-              })
-            }
+              });
+              push("/cart");
+            }}
           >
-            Buy now
+            Add to cart
           </button>
         </ProductDetails>
       </ProductContainer>

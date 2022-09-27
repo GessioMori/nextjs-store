@@ -1,9 +1,8 @@
-import Image from "next/future/image";
 import Link from "next/link";
+import { ShoppingCart } from "phosphor-react";
 import { useContextSelector } from "use-context-selector";
 import { CartContext } from "../contexts/CartContext";
 import { CartIconContainer, CartNumber } from "../styles/components/cartIcon";
-import cartSvg from "./../assets/cart.svg";
 
 export function CartIcon() {
   const numOfItems = useContextSelector(
@@ -15,7 +14,7 @@ export function CartIcon() {
     <Link href={"/cart"}>
       <CartIconContainer>
         {numOfItems !== 0 && <CartNumber>{numOfItems}</CartNumber>}
-        <Image src={cartSvg} alt="" width={50} height={50} />
+        <ShoppingCart size={32} />
       </CartIconContainer>
     </Link>
   );

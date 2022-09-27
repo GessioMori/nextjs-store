@@ -19,27 +19,44 @@ export default function Cart() {
       <Head>
         <title>Cart | MyStore</title>
       </Head>
+      {totalPrice === 0 ? (
+        <h1>Your cart is empty!</h1>
+      ) : (
+        <CartContainer>
+          <table>
+            <tr>
+              <th>{""}</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>{""}</th>
+            </tr>
+            {lineItems.map((item) => {
+              return (
+                <CartItem
+                  key={item.priceId}
+                  productId={item.productId}
+                  imageUrl={item.imageUrl}
+                  name={item.name}
+                  price={item.price}
+                  priceId={item.priceId}
+                  formatedPrice={item.formatedPrice}
+                  quantity={item.quantity}
+                />
+              );
+            })}
+          </table>
 
-      <CartContainer>
-        {lineItems.map((item) => {
-          return (
-            <CartItem
-              key={item.priceId}
-              productId={item.productId}
-              imageUrl={item.imageUrl}
-              name={item.name}
-              price={item.price}
-              quantity={item.quantity}
-            />
-          );
-        })}
-        <h1>
-          {new Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          }).format(totalPrice / 100)}
-        </h1>
-      </CartContainer>
+          <h2>
+            Total amount:{" "}
+            {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }).format(totalPrice / 100)}
+          </h2>
+          <button>Proceed to checkout</button>
+        </CartContainer>
+      )}
     </>
   );
 }

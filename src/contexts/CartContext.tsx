@@ -64,25 +64,28 @@ export function CartContextProvider({ children }: CartProviderProps) {
   }: changeItemQuantityArgs) {
     const isAlreadyInCart = lineItems.some((item) => item.priceId === priceId);
     if (isAlreadyInCart) {
-      const newItemsList = lineItems.map((item) => {
-        if (item.priceId !== priceId) {
-          return item;
-        }
-        return {
-          priceId,
-          productId,
-          name,
-          imageUrl,
-          price,
-          formatedPrice,
-          quantity:
-            action === "add"
-              ? item.quantity + 1
-              : action === "decrease"
-              ? item.quantity - 1
-              : 0,
-        };
-      });
+      const newItemsList = lineItems
+        .map((item) => {
+          if (item.priceId !== priceId) {
+            return item;
+          }
+
+          return {
+            priceId,
+            productId,
+            name,
+            imageUrl,
+            price,
+            formatedPrice,
+            quantity:
+              action === "add"
+                ? item.quantity + 1
+                : action === "decrease"
+                ? item.quantity - 1
+                : 0,
+          };
+        })
+        .filter((item) => item.quantity > 0);
       setLineItems(newItemsList);
       setNumOfItems(newItemsList.reduce((acc, cur) => acc + cur.quantity, 0));
       setTotalPrice(calculateTotal(newItemsList));
