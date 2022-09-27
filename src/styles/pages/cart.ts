@@ -16,7 +16,8 @@ export const CartImgContainer = styled("a", {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: 40,
+  width: 80,
+  height: 80,
 
   img: {
     width: "auto",

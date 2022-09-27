@@ -17,10 +17,11 @@ import { CartContext } from "../../contexts/CartContext";
 
 interface ProductProps {
   product: {
-    id: string;
+    productId: string;
     name: string;
     imageUrl: string;
-    price: string;
+    price: number;
+    formatedPrice: string;
     description: string;
     defaultPriceId: string;
   };
@@ -68,17 +69,19 @@ export default function Product({ product }: ProductProps) {
         </ImageContainer>
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{product.formatedPrice}</span>
           <p>{product.description}</p>
           <button
             onClick={() =>
-              changeItemQuantity(
-                product.defaultPriceId,
-                product.name,
-                product.imageUrl,
-                product.price,
-                "add"
-              )
+              changeItemQuantity({
+                action: "add",
+                imageUrl: product.imageUrl,
+                name: product.name,
+                formatedPrice: product.formatedPrice,
+                price: product.price,
+                priceId: product.defaultPriceId,
+                productId: product.productId,
+              })
             }
           >
             Buy now
@@ -110,10 +113,11 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   return {
     props: {
       product: {
-        id: product.id,
+        productId: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: new Intl.NumberFormat("pt-BR", {
+        price: price.unit_amount,
+        formatedPrice: new Intl.NumberFormat("pt-BR", {
           style: "currency",
           currency: "BRL",
         }).format(price.unit_amount / 100),
