@@ -2,7 +2,7 @@
 
 MyStore is a NextJS app which implements payment and data fetching from Stripe API. Furthermore, it provides SSR and SSG for faster navigation.
 
-**[LIVE PREVIEW](https://app.dotos.tech/)**
+**[LIVE DEMO](https://6332fed85abc82000765406f--cerulean-granita-0d2108.netlify.app/)**
 
 ### Features:
 
