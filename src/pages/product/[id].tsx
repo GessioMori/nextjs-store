@@ -9,8 +9,6 @@ import {
   ProductContainer,
   ProductDetails,
 } from "../../styles/pages/product";
-import axios from "axios";
-import { useState } from "react";
 import Head from "next/head";
 import { useContextSelector } from "use-context-selector";
 import { CartContext } from "../../contexts/CartContext";
@@ -29,25 +27,10 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) {
   const { isFallback, push } = useRouter();
-  const [isRedirecting, setIsRedirecting] = useState(false);
   const changeItemQuantity = useContextSelector(
     CartContext,
     (context) => context.changeItemQuantity
   );
-
-  async function handleBuyProduct() {
-    try {
-      setIsRedirecting(true);
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
-      const { checkoutUrl } = response.data;
-      window.location.href = checkoutUrl;
-    } catch (error) {
-      alert("Some error happened, try again!");
-      setIsRedirecting(false);
-    }
-  }
 
   if (isFallback) {
     return <SkeletonScreen />;

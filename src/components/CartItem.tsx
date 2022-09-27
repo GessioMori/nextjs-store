@@ -5,7 +5,7 @@ import { useContextSelector } from "use-context-selector";
 import { CartContext } from "../contexts/CartContext";
 import { CartImgContainer, CartItemContainer } from "../styles/pages/cart";
 
-interface CartItemProps {
+export interface CartItemProps {
   productId: string;
   name: string;
   imageUrl: string;

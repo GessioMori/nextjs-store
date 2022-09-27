@@ -35,6 +35,11 @@ export const SuccessContainer = styled("main", {
   },
 });
 
+export const ImagesContainer = styled("div", {
+  display: "flex",
+  gap: "1rem",
+});
+
 export const ImageContainer = styled("div", {
   width: "100%",
   maxWidth: 130,

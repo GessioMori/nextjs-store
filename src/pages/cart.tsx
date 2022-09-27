@@ -1,10 +1,13 @@
+import axios from "axios";
 import Head from "next/head";
+import { useState } from "react";
 import { useContextSelector } from "use-context-selector";
 import { CartItem } from "../components/CartItem";
 import { CartContext } from "../contexts/CartContext";
 import { CartContainer } from "../styles/pages/cart";
 
 export default function Cart() {
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const { lineItems, totalPrice } = useContextSelector(
     CartContext,
     (context) => {
@@ -14,6 +17,21 @@ export default function Cart() {
       };
     }
   );
+
+  async function handleBuy() {
+    try {
+      setIsRedirecting(true);
+      const response = await axios.post("/api/checkout", {
+        lineItems,
+      });
+      const { checkoutUrl } = response.data;
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      alert("Some error happened, try again!");
+      setIsRedirecting(false);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -54,7 +72,9 @@ export default function Cart() {
               currency: "BRL",
             }).format(totalPrice / 100)}
           </h2>
-          <button>Proceed to checkout</button>
+          <button onClick={handleBuy} disabled={isRedirecting}>
+            Proceed to checkout
+          </button>
         </CartContainer>
       )}
     </>
